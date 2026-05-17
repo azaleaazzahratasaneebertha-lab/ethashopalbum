@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethaalbumshop - Music Album Store</title>
+    <style>
+        /* --- CSS: Gaya & Desain Tampilan --- */
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --accent-color: #1db954; /* Hijau neon estetis */
+            --text-color: #ffffff;
+            --text-muted: #a7a7a7;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: #000000;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid #282828;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            color: var(--accent-color);
+            text-transform: uppercase;
+        }
+
+        header p {
+            margin: 10px 0 0 0;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 30px;
+        }
+
+        /* Responsif untuk Layar Smartphone */
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Grid Katalog Album */
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .album-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s, transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .album-card:hover {
+            background-color: #282828;
+            transform: translateY(-5px);
+        }
+
+        /* Placeholder Sampul Album */
+        .cover-art {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background-color: #333;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 15px;
+            border: 1px solid #444;
+        }
+
+        .album-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.2rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .album-info p {
+            margin: 0 0 15px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .price-tag {
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-add {
+            background-color: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-add:hover {
+            background-color: #1ed760;
+            transform: scale(1.02);
+        }
+
+        /* Panel Keranjang Belanja */
+        .cart-panel {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            height: fit-content;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .cart-panel h2 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
+        }
+
+        .cart-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #282828;
+            font-size: 0.95rem;
+        }
+
+        .cart-item-name {
+            max-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-remove {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .btn-remove:hover {
+            background-color: #ff3333;
+        }
+
+        .total-box {
+            margin-top: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #333;
+            padding-top: 15px;
+        }
+
+        .btn-checkout {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            padding: 12px;
+            width: 100%;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.2s;
+        }
+
+        .btn-checkout:hover {
+            background-color: var(--accent-color);
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- --- HTML: Struktur Halaman --- -->
+    <header>
+        <h1>Ethaalbumshop</h1>
+        <p>Koleksi Album Fisik Terlengkap & Original</p>
+    </header>
+
+    <div class="main-container">
+        <!-- Katalog Produk -->
+        <div class="album-grid">
+            
+            <!-- Produk 1 -->
+            <div class="album-card">
+                <div class="cover-art" style="background: linear-gradient(45deg, #4158D0, #C850C0);">CD</div>
+                <div class="album-info">
+                    <h3>Golden Hour</h3>
+                    <p>Nostalgia Band</p>
+                    <div class="price-tag">Rp 325.000</div>
+                </div>
+                <button class="btn-add" onclick="tambahKeKeranjang('Golden Hour', 325000)">+ Keranjang</button>
+            </div>
+
+            <!-- Produk 2 -->
+            <div class="album-card">
+                <div class="cover-art" style="background: linear-gradient(45deg, #00DBDE, #FC00FF);">VINYL</div>
+                <div class="album-info">
+                    <h3>Neon Dreams</h3>
+                    <p>The Synthwave Project</p>
+                    <div class="price-tag">Rp 450.000</div>
+                </div>
+                <button class="btn-add" onclick="tambahKeKeranjang('Neon Dreams', 450000)">+ Keranjang</button>
+            </div>
+
+            <!-- Produk 3 -->
+            <div class="album-card">
+                <div class="cover-art" style="background: linear-gradient(45deg, #FBAB7E, #F7CE68);">CD</div>
+                <div class="album-info">
+                    <h3>After Hours</h3>
+                    <p>Midnight Vocalist</p>
+                    <div class="price-tag">Rp 299.000</div>
+                </div>
+                <button class="btn-add" onclick="tambahKeKeranjang('After Hours', 299000)">+ Keranjang</button>
+            </div>
+
+            <!-- Produk 4 -->
+            <div class="album-card">
+                <div class="cover-art" style="background: linear-gradient(45deg, #8EC5FC, #E0C3FC);">CD</div>
+                <div class="album-info">
+                    <h3>Velocity</h3>
+                    <p>Sonic Speed</p>
+                    <div class="price-tag">Rp 375.000</div>
+                </div>
+                <button class="btn-add" onclick="tambahKeKeranjang('Velocity', 375000)">+ Keranjang</button>
+            </div>
+
+        </div>
+
+        <!-- Keranjang Belanja -->
+        <div class="cart-panel">
+            <h2>Keranjang Kamu</h2>
+            <ul id="cartItems" class="cart-list">
+                <!-- Item dinamis masuk lewat JavaScript -->
+            </ul>
+            <div class="total-box">
+                <span>Total:</span>
+                <span id="totalPrice">Rp 0</span>
+            </div>
+            <button class="btn-checkout" onclick="checkout()">Proses Pembayaran</button>
+        </div>
+    </div>
+
+    <!-- --- JavaScript: Logika Interaktivitas Belanja --- -->
+    <script>
+        let keranjang = [];
+        let totalHarga = 0;
+
+        // Fungsi menambah produk
+        function tambahKeKeranjang(namaAlbum, harga) {
+            keranjang.push({ nama: namaAlbum, harga: harga });
+            perbaruiTampilanKeranjang();
+        }
+
+        // Fungsi menghapus produk
+        function hapusDariKeranjang(index) {
+            keranjang.splice(index, 1);
+            perbaruiTampilanKeranjang();
+        }
+
+        // Fungsi render ulang list keranjang
+        function perbaruiTampilanKeranjang() {
+            const elemenList = document.getElementById('cartItems');
+            const elemenTotal = document.getElementById('totalPrice');
+            
+            elemenList.innerHTML = '';
+            totalHarga = 0;
+
+            keranjang.forEach((item, index) => {
+                totalHarga += item.harga;
+
+                const li = document.createElement('li');
+                li.className = 'cart-item';
+                li.innerHTML = `
+                    <span class="cart-item-name" title="${item.nama}">${item.nama}</span>
+                    <div>
+                        <span style="margin-right: 10px; font-weight: 500;">Rp ${item.harga.toLocaleString('id-ID')}</span>
+                        <button class="btn-remove" onclick="hapusDariKeranjang(${index})">Hapus</button>
+                    </div>
+                `;
+                elemenList.appendChild(li);
+            });
+
+            elemenTotal.innerText = `Rp ${totalHarga.toLocaleString('id-ID')}`;
+        }
+
+        // Fungsi checkout tombol bayar
+        function checkout() {
+            if (keranjang.length === 0) {
+                alert("Keranjang belanjaan Ethaalbumshop masih kosong!");
+            } else {
+                alert(`Pesanan Berhasil!\nTotal yang harus dibayar: Rp ${totalHarga.toLocaleString('id-ID')}\n\nTerima kasih sudah memesan di Ethaalbumshop!`);
+                keranjang = [];
+                perbaruiTampilanKeranjang();
+            }
+        }
+    </script>
+</body>
+</html>
